@@ -56,11 +56,13 @@ function copyToCanvas(target) {
     var ctxt = canvas.getContext('2d');
 
     var img = document.createElement('img');
-    img.setAttribute('src', 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData))));
+    var b64 = btoa(unescape(encodeURIComponent(svgData)));
+    img.setAttribute('src', 'data:image/svg+xml;base64,' + b64);
     ctxt.drawImage(img, 0, 0);
 
     var element = document.getElementById("space_for_plot");
     element.appendChild(img);
+    return b64;
 }
 
 function array_mean(elmt){
@@ -251,9 +253,9 @@ function plot_data(){
             .attr("d", line); 
     }
     inlineStyles("svg");
-    copyToCanvas("svg");
+    var b64 = copyToCanvas("svg");
     d3.select("svg").remove();
-    return false;
+    return b64;
 }
 
 
@@ -262,10 +264,10 @@ var items = cepheids.concat([
     "slope",
     "intercept",
     "mu",
-    "slope2",
-    "intercept2",
+    "b1",
     "Mabs",
-    "dist"
+    "dist",
+    "uun"
     ])
     
 function save_item(name){
@@ -287,6 +289,7 @@ window.onload = function() {
 
 
 function sendEmail() {
+
     var email = "joe.zuntz@ed.ac.uk";
     var uun = d3.select('#uun').property("value");
 
@@ -302,4 +305,36 @@ function sendEmail() {
     });
 
     document.location = "mailto:"+email+"?subject="+subject+"&body="+body;
+}
+
+
+
+function makePDF() {
+    var b64 = plot_data();
+    var uun = d3.select('#uun').property("value");
+    var name = d3.select('#name').property("value");
+
+    if ((uun == "") || (uun == null) || (name == "") || (name == null)){
+        alert("Please enter your name and UUN to submit.")
+        return;
+    }
+
+    var doc = new jsPDF();
+
+    doc.setFontSize(25);
+    doc.text("Discovering Astronomy Workshop 5 Submission", 10, 10)
+    doc.setFontSize(15);
+    doc.text(name + " (" + uun + ")", 10, 20)
+    doc.setFontSize(10);
+
+    for (let i = 0; i < items.length; i++) {
+        let name = items[i];
+        let val = d3.select('#' + name).property("value");
+        doc.text(name + ":    " + val, 10, 30 + 10 * (i+1));
+    }
+
+
+
+    var filename = uun + "-workshop-5.pdf";
+    doc.save(filename);
 }

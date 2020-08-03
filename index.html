@@ -5,14 +5,15 @@
 <link rel="stylesheet" href="style.css">
 
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
     <script src = "cepheids.js"></script>
 
 <h1> Cepheid Variable Exercise</h1>
 
-<p>This form is for submitting your answers to the Discovering Astronomy workshop 5.  See the worksheet for full instructions.</p>
+<p>This form is for submitting your answers to the Discovering Astronomy workshop 5.  See the worksheet for full instructions.  Write your answers on paper separately in case something goes wrong.</p>
 
-<p>You need to have your email configured on your device to use this page.  If you have problems filling this in or submiting then please let us know as soon as possible.</p>
+<p>The best way to submit is by saving the results as a PDF page using the button at the bottom of the page.  If this does not work for you, you can also submit by an auto-generated email.</p>
 
 
 <h2> Part 2.1</h2>
@@ -114,7 +115,7 @@
 
 <hr>
 <h2> Part 2.4: Leavitt's Law</h2>
-<p>Enter the slope and intercept you find for Leavitt's Law here:</p>
+<p>Enter the value b<sub>1</sub> you find for Leavitt's Law here:</p>
 <form id="leavitt_form"></form>
 <table id="leavitt_table">
     <TR>
@@ -122,12 +123,8 @@
         <TH>Your answer</TH>
     </TR>
     <TR>
-        <TD><label for="slope2">Slope:</label></TD>
-        <TD><input form="leavitt_form" type="text" id="slope2" name="slope2"></TD>
-    </TR>
-    <TR>
-        <TD><label for="intercept2">Intercept:</label></TD>
-        <TD><input form="leavitt_form" type="text" id="intercept2" name="intercept2"></TD>
+        <TD><label for="b1">b<sub>1</sub>:</label></TD>
+        <TD><input form="leavitt_form" type="text" id="b1" name="b1"></TD>
     </TR>
 </table>
 
@@ -165,27 +162,32 @@
 
 <h2> Submitting your answers</h2>
 
-<p> 
-    The button here will open your email program to send the results.
-    Click send when your email program opens.
-<p>
+<p>We prefer you to submit by saving the results as a PDF page and submitting through LEARN..</p>
 
-<form id="submit_form" onsubmit="sendEmail(); return false;"></form>
+<p>If this does not work for you, you can also submit by sending an auto-generated email.</p>
 
 
-
-
-<form onsubmit="sendEmail(); return false;"></form>
+<form id="email_form" onsubmit="sendEmail(); return false;"></form>
+<form id="pdf_form" onsubmit="makePDF(); return false;"></form>
 <TABLE>
     <TR>
-        <TD><label for="uun">Your UUN:</label></TD>
-        <TD><input form="submit_form" type="text" id="uun" name="uun"></TD>
+        <TD><label for="name">Your Name:</label></TD>
+        <TD><input form="email_form" type="text" id="name" name="name"></TD>
     </TR>
     <TR>
-        <TD><label for="send">Click to send:</label></TD>
-        <TD><button form="submit_form" type="submit" id="send" name="send">Send</button></TD>
+        <TD><label for="uun">Your UUN:</label></TD>
+        <TD><input form="email_form" type="text" id="uun" name="uun"></TD>
+    </TR>
+    <TR>
+        <TD><label for="send">Download a PDF to submit yourself (preferred): </label></TD>
+        <TD><button form="pdf_form" type="submit" id="send" name="send">Make PDF</button></TD>
+    </TR>
+    <TR>
+        <TD><label for="send2">Make an email to send:</label></TD>
+        <TD><button form="email_form" type="submit" id="send2" name="send2">Send E-mail</button></TD>
     </TR>
 </TABLE>
+
 
 
 
